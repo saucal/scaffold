@@ -1,0 +1,13 @@
+{
+  "name": "@saucal/scaffold",
+  "version": "1.0.0",
+  "description": "Scaffold projects or plugins from the console.",
+  "bin": {
+    "sc-scaffold": "./bin/sc-scaffold.js"
+  },
+  "scripts": {
+    "scaffold": "sc-scaffold"
+  },
+  "author": "SAU/CAL",
+  "license": "GPL-2.0-or-later"
+}
