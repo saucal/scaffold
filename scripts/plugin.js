@@ -55,7 +55,7 @@ let pluginAuthorEmail = String(data.author.email).length ? data.author.email : '
 let pluginNamePackage = capitalize( pluginSlug );
 let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : 'APlugin';
 let pluginNameContantsPrefix = pluginNameShortPackage.toUpperCase();
-let pluginNameSingleton = String(data.singleton).length ? data.singleton : 'APluginSingleton';
+let pluginNameSingleton = String(data.singleton).length ? data.singleton : pluginNameShortPackage;
 let pluginNameInstance = pluginSlug.replace(/-/gi, '_');
 let pluginAuthorFull = pluginAuthor +' <'+ pluginAuthorEmail + '>';
 
