@@ -48,9 +48,9 @@ const walkDirectory = function(dir, cb) {
 
 let pluginName = String(data.name).length ? data.name : 'Amazing Plugin';
 let pluginSlug = String(data.slug).length ? String(data.slug).toLowerCase() : slugify( pluginName ).toLowerCase();
-let pluginURI = String(data.uri).length ? data.uri : 'http://example.com/amazing-plugin-uri/' ;
+let pluginURI = String(data.uri).length ? data.uri : 'https://saucal.com/' ;
 let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL' ;
-let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com';
+let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com/';
 let pluginAuthorEmail = String(data.author.email).length ? data.author.email : 'info@saucal.com';
 let pluginNamePackage = capitalize( pluginSlug );
 let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : 'APlugin';
