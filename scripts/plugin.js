@@ -26,14 +26,17 @@ let data = {
 	}
 };
 
-const capitalize = function(name){
+const capitalize = function( name ) {
 	var newName = "";
-	name = name.replace(/-/gi, ' ');
 	pieces = name.split(' ');
 	pieces.forEach(function(word){
 		newName += word.charAt(0).toUpperCase() + word.slice(1) + ' ';
 	});
-	return newName.trim().replace(/ /gi, '_');
+	return newName.trim();
+}
+
+const packagify = function(name){
+	return capitalize(name.replace(/-/gi, ' ')).replace(/ /gi, '_');
 }
 
 const walkDirectory = function(dir, cb) {
@@ -52,7 +55,7 @@ let pluginURI = String(data.uri).length ? data.uri : 'https://saucal.com/' ;
 let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL' ;
 let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com/';
 let pluginAuthorEmail = String(data.author.email).length ? data.author.email : 'info@saucal.com';
-let pluginNamePackage = capitalize( pluginSlug );
+let pluginNamePackage = packagify( pluginSlug );
 let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : 'APlugin';
 let pluginNameContantsPrefix = pluginNameShortPackage.toUpperCase();
 let pluginNameSingleton = String(data.singleton).length ? data.singleton : pluginNameShortPackage;
