@@ -42,6 +42,7 @@
     "read-pkg-up": "^1.0.1",
     "replace": "^1.2.1",
     "resolve-bin": "^0.4.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "slugify": "^1.5.3"
   }
 }

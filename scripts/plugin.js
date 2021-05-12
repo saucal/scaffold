@@ -6,6 +6,7 @@ const { readdirSync, statSync, renameSync, rename } = require( 'fs' );
 const downloadGH = require( 'download-git-repo' );
 const rimraf = require( 'rimraf' );
 const replace = require( 'replace' );
+const slugify = require( 'slugify' );
 
 /**
  * Internal dependencies
@@ -46,7 +47,7 @@ const walkDirectory = function(dir, cb) {
 };
 
 let pluginName = String(data.name).length ? data.name : 'Amazing Plugin';
-let pluginSlug = String(data.slug).length ? String(data.slug).toLowerCase() : 'amazing-plugin';
+let pluginSlug = String(data.slug).length ? String(data.slug).toLowerCase() : slugify( pluginName ).toLowerCase();
 let pluginURI = String(data.uri).length ? data.uri : 'http://example.com/amazing-plugin-uri/' ;
 let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL' ;
 let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com';
