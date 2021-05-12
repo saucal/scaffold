@@ -37,8 +37,11 @@
   },
   "dependencies": {
     "cross-spawn": "^5.1.0",
+    "download-git-repo": "^3.0.2",
     "minimist": "^1.2.5",
     "read-pkg-up": "^1.0.1",
-    "resolve-bin": "^0.4.0"
+    "replace": "^1.2.1",
+    "resolve-bin": "^0.4.0",
+    "rimraf": "^3.0.2"
   }
 }
