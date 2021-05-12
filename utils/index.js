@@ -18,7 +18,7 @@ const {
 	hasPrettierConfig,
 	hasPostCSSConfig,
 } = require( './config' );
-const { fromProjectRoot, fromConfigRoot, hasProjectFile } = require( './file' );
+const { fromProjectRoot, fromConfigRoot, hasProjectFile, walkDirectory } = require( './file' );
 const { getPackageProp, hasPackageProp } = require( './package' );
 
 module.exports = {
@@ -40,4 +40,5 @@ module.exports = {
 	hasPrettierConfig,
 	hasProjectFile,
 	spawnScript,
+	walkDirectory,
 };

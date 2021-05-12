@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-const { existsSync, readdirSync } = require( 'fs' );
+const { existsSync, readdirSync, statSync } = require( 'fs' );
 const path = require( 'path' );
 
 /**
@@ -29,6 +29,13 @@ const getScripts = () =>
 		.filter( ( f ) => path.extname( f ) === '.js' )
 		.map( ( f ) => path.basename( f, '.js' ) );
 
+const walkDirectory = (dir, cb) =>
+	readdirSync(dir)
+		.map( ( f ) => path.join( dir, f ) )
+		.map( ( f ) => statSync( f ).isDirectory() ? walkDirectory( f ) : f )
+		.flat()
+		.map( cb || ( (f) => f ) );
+
 module.exports = {
 	fromProjectRoot,
 	fromConfigRoot,
@@ -36,4 +43,5 @@ module.exports = {
 	getScripts,
 	hasProjectFile,
 	hasScriptFile,
+	walkDirectory,
 };

@@ -2,7 +2,7 @@
  * External dependencies
  */
 const path = require( 'path' );
-const { readdirSync, statSync, renameSync, rename } = require( 'fs' );
+const { statSync, renameSync } = require( 'fs' );
 const downloadGH = require( 'download-git-repo' );
 const rimraf = require( 'rimraf' );
 const replace = require( 'replace' );
@@ -11,7 +11,7 @@ const slugify = require( 'slugify' );
 /**
  * Internal dependencies
  */
-const { getArgFromCLI } = require( '../utils' );
+const { getArgFromCLI, walkDirectory } = require( '../utils' );
 
 let data = {
 	branch: getArgFromCLI( '--branch' ) || 'master',
@@ -50,16 +50,6 @@ const shortify = function( name ) {
 	newName += last;
 	return newName;
 }
-
-const walkDirectory = function(dir, cb) {
-	cb = cb || ( (f) => f );
-	var files = readdirSync(dir)
-		.map( ( f ) => path.join( dir, f ) )
-		.map( ( f ) => statSync( f ).isDirectory() ? walkDirectory( f ) : f )
-		.flat()
-		.map( cb );
-	return files;
-};
 
 let pluginName = String(data.name).length ? data.name : 'Amazing Plugin';
 let pluginSlug = String(data.slug).length ? String(data.slug).toLowerCase() : slugify( pluginName ).toLowerCase();
