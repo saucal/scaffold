@@ -39,6 +39,17 @@ const packagify = function(name){
 	return capitalize(name.replace(/-/gi, ' ')).replace(/ /gi, '_');
 }
 
+const shortify = function( name ) {
+	var newName = "";
+	var pieces = capitalize( name ).split( ' ' );
+	var last = pieces.pop();
+	pieces.forEach(function(word){
+		newName += word.charAt(0);
+	});
+	newName += last;
+	return newName;
+}
+
 const walkDirectory = function(dir, cb) {
 	cb = cb || ( (f) => f );
 	var files = readdirSync(dir)
@@ -56,7 +67,7 @@ let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL
 let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com/';
 let pluginAuthorEmail = String(data.author.email).length ? data.author.email : 'info@saucal.com';
 let pluginNamePackage = packagify( pluginSlug );
-let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : 'APlugin';
+let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : shortify( pluginName );
 let pluginNameContantsPrefix = pluginNameShortPackage.toUpperCase();
 let pluginNameSingleton = String(data.singleton).length ? data.singleton : pluginNameShortPackage;
 let pluginNameInstance = pluginSlug.replace(/-/gi, '_');
