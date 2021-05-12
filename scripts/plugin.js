@@ -14,6 +14,7 @@ const slugify = require( 'slugify' );
 const { getArgFromCLI } = require( '../utils' );
 
 let data = {
+	branch: getArgFromCLI( '--branch' ) || 'master',
 	name: getArgFromCLI( '--name' ) || '',
 	slug: getArgFromCLI( '--slug' ) || '',
 	uri: getArgFromCLI( '--uri' ) || '',
@@ -77,7 +78,7 @@ let sourcePath = path.join( process.cwd(), 'source-' + (new Date()).getTime() );
 
 rimraf.sync( sourcePath );
 
-downloadGH( "saucal/WordPress-Plugin-Boilerplate#master", sourcePath, function(err) {
+downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, function(err) {
 	if ( err ) {
 		throw err;
 	}
