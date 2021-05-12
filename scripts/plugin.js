@@ -76,6 +76,16 @@ let pluginAuthorFull = pluginAuthor +' <'+ pluginAuthorEmail + '>';
 
 let sourcePath = path.join( process.cwd(), 'source-' + (new Date()).getTime() );
 
+let sourcePluginPath = path.join( sourcePath, pluginSlug );
+var targetPluginPath = path.join( process.cwd(), path.basename( sourcePluginPath ) );
+try {
+	statSync( targetPluginPath );
+	console.warn( "Plugin already exists." );
+	process.exit( 1 );
+} catch( e ) {
+	// all good
+}
+
 rimraf.sync( sourcePath );
 
 downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, function(err) {
@@ -83,7 +93,6 @@ downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, fu
 		throw err;
 	}
 
-	let sourcePluginPath = path.join( sourcePath, pluginSlug );
 	renameSync( path.join( sourcePath, 'plugin-name' ), sourcePluginPath );
 
 	walkDirectory( sourcePluginPath, function( f ) {
@@ -125,7 +134,7 @@ downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, fu
 		} );
 	} );
 
-	renameSync( sourcePluginPath, path.join( process.cwd(), path.basename( sourcePluginPath ) ) );
+	renameSync( sourcePluginPath, targetPluginPath );
 
 	rimraf.sync( sourcePath );
 } );
