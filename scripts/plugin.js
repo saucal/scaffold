@@ -2,7 +2,7 @@
  * External dependencies
  */
 const path = require( 'path' );
-const { statSync, renameSync } = require( 'fs' );
+const { existsSync, renameSync } = require( 'fs' );
 const downloadGH = require( 'download-git-repo' );
 const rimraf = require( 'rimraf' );
 const replace = require( 'replace' );
@@ -68,12 +68,10 @@ let sourcePath = path.join( process.cwd(), 'source-' + (new Date()).getTime() );
 
 let sourcePluginPath = path.join( sourcePath, pluginSlug );
 var targetPluginPath = path.join( process.cwd(), path.basename( sourcePluginPath ) );
-try {
-	statSync( targetPluginPath );
+
+if ( existsSync( targetPluginPath ) ) {
 	console.warn( "Plugin already exists." );
 	process.exit( 1 );
-} catch( e ) {
-	// all good
 }
 
 rimraf.sync( sourcePath );
