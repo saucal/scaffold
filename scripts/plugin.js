@@ -67,7 +67,23 @@ let pluginAuthorFull = pluginAuthor +' <'+ pluginAuthorEmail + '>';
 let sourcePath = path.join( process.cwd(), 'source-' + (new Date()).getTime() );
 
 let sourcePluginPath = path.join( sourcePath, pluginSlug );
-var targetPluginPath = path.join( process.cwd(), path.basename( sourcePluginPath ) );
+
+let paths = [
+	'wp-content/plugins',
+	'plugins',
+	'.'
+];
+
+let basePath;
+for( var i in paths ) {
+	let thisPath = path.resolve( path.join( process.cwd(), paths[i] ) );
+	if ( existsSync( thisPath ) ) {
+		basePath = thisPath;
+		break;
+	}
+}
+
+var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 
 if ( existsSync( targetPluginPath ) ) {
 	console.warn( "Plugin already exists." );
