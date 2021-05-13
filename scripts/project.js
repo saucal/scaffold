@@ -8,6 +8,7 @@ const rimraf = require( 'rimraf' );
 const replace = require( 'replace' );
 const slugify = require( 'slugify' );
 const mkdirp = require('mkdirp');
+const { prompt } = require('enquirer');
 
 /**
  * Internal dependencies
@@ -30,7 +31,7 @@ let targetPath = process.cwd();
 
 rimraf.sync( sourcePath );
 
-downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, function(err) {
+downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, async function(err) {
 	if ( err ) {
 		throw err;
 	}
@@ -50,12 +51,29 @@ downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, functi
 		} );
 	} );
 
-	walkDirectory( sourcePath, function( f ) {
+	await walkDirectory( sourcePath, async function( f ) {
 		let relative = path.relative( sourcePath, f );
 		let replacePath = path.join( targetPath, relative );
 
 		if ( existsSync( replacePath ) ) {
-			rimraf.sync( replacePath );
+			let response;
+			try {
+				response = await prompt({
+					type: 'confirm',
+					name: 'question',
+					message: 'File ' + relative + ' exists. Replace?',
+					initial: false,
+				});
+			} catch {
+				rimraf.sync( sourcePath );
+				return process.exit( 1 );
+			}
+
+			if ( response ) {
+				rimraf.sync( replacePath );
+			} else {
+				return;
+			}
 		}
 		mkdirp.sync( path.dirname( replacePath ) );
 		renameSync( f, replacePath );

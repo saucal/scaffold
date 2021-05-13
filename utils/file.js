@@ -29,12 +29,25 @@ const getScripts = () =>
 		.filter( ( f ) => path.extname( f ) === '.js' )
 		.map( ( f ) => path.basename( f, '.js' ) );
 
-const walkDirectory = (dir, cb) =>
-	readdirSync(dir)
-		.map( ( f ) => path.join( dir, f ) )
-		.map( ( f ) => statSync( f ).isDirectory() ? walkDirectory( f ) : f )
-		.flat()
-		.map( cb || ( (f) => f ) );
+const mapAsync = async function( data, cb ) {
+	for( let i in data ) {
+		data[i] = await cb( data[i], i, data );
+	}
+	return data;
+}
+
+const walkDirectory = async (dir, cb) => {
+	cb = cb || ( (f) => f );
+	let data = readdirSync(dir)
+		.map( ( f ) => path.join( dir, f ) );
+	
+	data = await mapAsync( data, async ( f ) => statSync( f ).isDirectory() ? await walkDirectory( f ) : f );
+
+	data = data.flat();
+
+	data = await mapAsync( data, cb );
+	return data;
+}
 
 module.exports = {
 	fromProjectRoot,

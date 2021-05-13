@@ -38,6 +38,7 @@
   "dependencies": {
     "cross-spawn": "^5.1.0",
     "download-git-repo": "^3.0.2",
+    "enquirer": "^2.3.6",
     "minimist": "^1.2.5",
     "mkdirp": "^1.0.4",
     "read-pkg-up": "^1.0.1",

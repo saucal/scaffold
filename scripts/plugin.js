@@ -7,6 +7,7 @@ const downloadGH = require( 'download-git-repo' );
 const rimraf = require( 'rimraf' );
 const replace = require( 'replace' );
 const slugify = require( 'slugify' );
+const { prompt } = require('enquirer');
 
 /**
  * Internal dependencies
@@ -85,60 +86,77 @@ for( var i in paths ) {
 
 var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 
-if ( existsSync( targetPluginPath ) ) {
-	console.warn( "Plugin already exists." );
-	process.exit( 1 );
-}
-
-rimraf.sync( sourcePath );
-
-downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, function(err) {
-	if ( err ) {
-		throw err;
-	}
-
-	renameSync( path.join( sourcePath, 'plugin-name' ), sourcePluginPath );
-
-	walkDirectory( sourcePluginPath, function( f ) {
-		let pname = path.dirname( f );
-		let fname = path.basename( f );
-		let newName = fname
-			.replace(/plugin-name/gi, pluginSlug)
-			.replace(/pname/gi, pluginNameShortPackage.toLowerCase().replace(/_/gi, '-'));
-		newName = path.join( pname, newName );
-		if( newName === f ) {
-			return f;
+(async function(){
+	if ( existsSync( targetPluginPath ) ) {
+		let relative = path.relative( process.cwd(), targetPluginPath );
+		let response;
+		try {
+			response = await prompt({
+				type: 'confirm',
+				name: 'question',
+				message: 'Folder ' + relative + ' exists. Replace?',
+				initial: false,
+			});
+		} catch {
+			return process.exit( 1 );
 		}
-		renameSync( f, newName );
-		return newName;
-	} );
-
-	let replacements = [
-		[ "http://example.com/plugin-name-uri/", pluginURI ],
-		[ "WordPress Plugin Boilerplate", pluginName ],
-		[ "Your Name or Your Company", pluginAuthor ],
-		[ "Your Name <email@example.com>", pluginAuthorFull ],
-		[ "Plugin_Name", pluginNamePackage ],
-		[ "plugin-name", pluginSlug ],
-		[ "plugin_name", pluginNameInstance ],
-		[ "PNameSingleton", pluginNameSingleton ],
-		[ "PName", pluginNameShortPackage ],
-		[ "pname", pluginNameShortPackage.toLowerCase().replace(/_/gi, '-') ],
-		[ "PNAME", pluginNameContantsPrefix ],
-		[ "http://example.com/?", pluginAuthorURI ],
-	];
-
-	replacements.map( function( rule ) {
-		replace( {
-			regex: rule[0],
-			replacement: rule[1],
-			paths: [ sourcePluginPath ],
-			recursive: true,
-			silent: true,
-		} );
-	} );
-
-	renameSync( sourcePluginPath, targetPluginPath );
-
+		if ( ! response ) {
+			return process.exit( 1 );
+		} else {
+			rimraf.sync( targetPluginPath );
+		}
+	}
+	
 	rimraf.sync( sourcePath );
-} );
+	
+	downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, async function(err) {
+		if ( err ) {
+			throw err;
+		}
+	
+		renameSync( path.join( sourcePath, 'plugin-name' ), sourcePluginPath );
+	
+		await walkDirectory( sourcePluginPath, function( f ) {
+			let pname = path.dirname( f );
+			let fname = path.basename( f );
+			let newName = fname
+				.replace(/plugin-name/gi, pluginSlug)
+				.replace(/pname/gi, pluginNameShortPackage.toLowerCase().replace(/_/gi, '-'));
+			newName = path.join( pname, newName );
+			if( newName === f ) {
+				return f;
+			}
+			renameSync( f, newName );
+			return newName;
+		} );
+	
+		let replacements = [
+			[ "http://example.com/plugin-name-uri/", pluginURI ],
+			[ "WordPress Plugin Boilerplate", pluginName ],
+			[ "Your Name or Your Company", pluginAuthor ],
+			[ "Your Name <email@example.com>", pluginAuthorFull ],
+			[ "Plugin_Name", pluginNamePackage ],
+			[ "plugin-name", pluginSlug ],
+			[ "plugin_name", pluginNameInstance ],
+			[ "PNameSingleton", pluginNameSingleton ],
+			[ "PName", pluginNameShortPackage ],
+			[ "pname", pluginNameShortPackage.toLowerCase().replace(/_/gi, '-') ],
+			[ "PNAME", pluginNameContantsPrefix ],
+			[ "http://example.com/?", pluginAuthorURI ],
+		];
+	
+		replacements.map( function( rule ) {
+			replace( {
+				regex: rule[0],
+				replacement: rule[1],
+				paths: [ sourcePluginPath ],
+				recursive: true,
+				silent: true,
+			} );
+		} );
+	
+		renameSync( sourcePluginPath, targetPluginPath );
+	
+		rimraf.sync( sourcePath );
+	} );
+})()
