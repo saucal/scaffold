@@ -111,7 +111,8 @@ var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 	
 	downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, async function(err) {
 		if ( err ) {
-			throw err;
+			console.error( "Couldn't download from GitHub. Maybe the branch \"" + data.branch + "\" doesn't exist?" );
+			process.exit( 1 );
 		}
 	
 		renameSync( path.join( sourcePath, 'plugin-name' ), sourcePluginPath );

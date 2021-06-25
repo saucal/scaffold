@@ -33,7 +33,8 @@ rimraf.sync( sourcePath );
 
 downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, async function(err) {
 	if ( err ) {
-		throw err;
+		console.error( "Couldn't download from GitHub. Maybe the branch \"" + data.branch + "\" doesn't exist?" );
+		process.exit( 1 );
 	}
 
 	let replacements = [
