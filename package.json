@@ -9,5 +9,36 @@
     "scaffold": "sc-scaffold"
   },
   "author": "SAU/CAL",
-  "license": "GPL-2.0-or-later"
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "wordpress",
+    "scripts"
+  ],
+  "homepage": "https://github.com/saucal/scaffold",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saucal/scaffold.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saucal/scaffold/issues"
+  },
+  "engines": {
+    "node": ">=12",
+    "npm": ">=6.9"
+  },
+  "files": [
+    "bin",
+    "config",
+    "scripts",
+    "utils"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "cross-spawn": "^5.1.0",
+    "minimist": "^1.2.5",
+    "read-pkg-up": "^1.0.1",
+    "resolve-bin": "^0.4.0"
+  }
 }
