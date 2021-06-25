@@ -2,7 +2,7 @@
  * External dependencies
  */
 const path = require( 'path' );
-const { renameSync, existsSync } = require( 'fs' );
+const { renameSync, existsSync, readFileSync } = require( 'fs' );
 const downloadGH = require( 'download-git-repo' );
 const rimraf = require( 'rimraf' );
 const replace = require( 'replace' );
@@ -55,13 +55,13 @@ downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, async 
 		let relative = path.relative( sourcePath, f );
 		let replacePath = path.join( targetPath, relative );
 
-		if ( existsSync( replacePath ) ) {
+		if ( existsSync( replacePath ) && ! readFileSync(f).equals( readFileSync( replacePath ) ) ) {
 			let response;
 			try {
 				response = await prompt({
 					type: 'confirm',
 					name: 'question',
-					message: 'File ' + relative + ' exists. Replace?',
+					message: 'File ' + relative + ' exists and is different. Replace?',
 					initial: false,
 				});
 			} catch {
