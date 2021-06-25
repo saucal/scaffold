@@ -53,7 +53,7 @@ const shortify = function( name ) {
 }
 
 let pluginName = String(data.name).length ? data.name : 'Amazing Plugin';
-let pluginSlug = String(data.slug).length ? String(data.slug).toLowerCase() : slugify( pluginName ).toLowerCase();
+let pluginSlug = String(data.slug).length ? slugify( data.slug ).toLowerCase() : slugify( pluginName ).toLowerCase();
 let pluginURI = String(data.uri).length ? data.uri : 'https://saucal.com/' ;
 let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL' ;
 let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com/';
