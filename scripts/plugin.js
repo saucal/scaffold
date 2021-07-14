@@ -141,6 +141,7 @@ var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 			[ "plugin_name", pluginNameInstance ],
 			[ "PNameSingleton", pluginNameSingleton ],
 			[ "PName", pluginNameShortPackage ],
+			[ "pname_", pluginNameShortPackage.toLowerCase() + '_' ],
 			[ "pname", pluginNameShortPackage.toLowerCase().replace(/_/gi, '-') ],
 			[ "PNAME", pluginNameContantsPrefix ],
 			[ "http://example.com/?", pluginAuthorURI ],
