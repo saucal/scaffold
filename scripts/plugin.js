@@ -23,7 +23,7 @@ let data = {
 	singleton: getArgFromCLI( '--singleton' ) || '',
 	author: {
 		name: 'SAU/CAL',
-		uri: 'https://saucal.com',
+		uri: 'https://saucal.com/',
 		email: 'info@saucal.com',
 	}
 };
