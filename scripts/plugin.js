@@ -58,6 +58,7 @@ let pluginURI = String(data.uri).length ? data.uri : 'https://saucal.com/' ;
 let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL' ;
 let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com/';
 let pluginAuthorEmail = String(data.author.email).length ? data.author.email : 'info@saucal.com';
+let pluginAuthorSlug = slugify( pluginAuthor ).toLowerCase()
 let pluginNamePackage = packagify( pluginSlug );
 let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : shortify( pluginName );
 let pluginNameContantsPrefix = pluginNameShortPackage.toUpperCase();
@@ -136,6 +137,7 @@ var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 			[ "WordPress Plugin Boilerplate", pluginName ],
 			[ "Your Name or Your Company", pluginAuthor ],
 			[ "Your Name <email@example.com>", pluginAuthorFull ],
+			[ "author-slug", pluginAuthorSlug ],
 			[ "Plugin_Name", pluginNamePackage ],
 			[ "plugin-name", pluginSlug ],
 			[ "plugin_name", pluginNameInstance ],
