@@ -19,6 +19,7 @@ let data = {
 	name: getArgFromCLI( '--name' ) || '',
 	slug: getArgFromCLI( '--slug' ) || '',
 	uri: getArgFromCLI( '--uri' ) || '',
+	package: getArgFromCLI( '--package' ) || '',
 	shortpkg: getArgFromCLI( '--short' ) || '',
 	singleton: getArgFromCLI( '--singleton' ) || '',
 	author: {
@@ -32,13 +33,13 @@ const capitalize = function( name ) {
 	var newName = "";
 	pieces = name.split(' ');
 	pieces.forEach(function(word){
-		newName += word.charAt(0).toUpperCase() + word.slice(1) + ' ';
+		newName += word.charAt(0).toUpperCase() + word.slice(1);
 	});
 	return newName.trim();
 }
 
 const packagify = function(name){
-	return capitalize(name.replace(/-/gi, ' ')).replace(/ /gi, '_');
+	return capitalize(name.replace(/[^a-z0-9-_ ]/gi, '').replace(/[-_]/gi, ' '));
 }
 
 const shortify = function( name ) {
@@ -59,7 +60,7 @@ let pluginAuthor = String(data.author.name).length ? data.author.name : 'SAU/CAL
 let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https://saucal.com/';
 let pluginAuthorEmail = String(data.author.email).length ? data.author.email : 'info@saucal.com';
 let pluginAuthorSlug = slugify( pluginAuthor ).toLowerCase()
-let pluginNamePackage = packagify( pluginSlug );
+let pluginNamePackage = String(data.package).length ? data.package : packagify( pluginName );
 let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : shortify( pluginName );
 let pluginNameContantsPrefix = pluginNameShortPackage.toUpperCase();
 let pluginNameSingleton = String(data.singleton).length ? data.singleton : pluginNameShortPackage;
