@@ -6,12 +6,12 @@ _This package is inspired by [@wordpress/scripts](https://www.npmjs.com/package/
 
 ## Installation
 
-To install as a local NPM package:
-`npm install saucal/scaffold`
+To install as a global NPM package:
+`npm install -g saucal/scaffold`
 
 ## Usage
 
-`npx sc-scaffold plugin --name="My Plugin Name"`
+`sc-scaffold plugin --name="My Plugin Name"`
 
 ## Available arguments
 
