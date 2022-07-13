@@ -59,6 +59,7 @@ const spawnScript = ( scriptName, args = [], nodeArgs = [] ) => {
 	if ( ! scriptName ) {
 		// eslint-disable-next-line no-console
 		console.log( 'Script name is missing.' );
+		console.log( 'Usage: sc-scaffold plugin --name="My Plugin Name"' );
 		exit( 1 );
 	}
 
