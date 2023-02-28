@@ -31,7 +31,7 @@ let targetPath = process.cwd();
 
 rimraf.sync( sourcePath );
 
-downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, async function(err) {
+downloadGH( "saucal/project-gulp-boilerplate#" + data.branch, sourcePath, { clone: true }, async function(err) {
 	if ( err ) {
 		console.error( "Couldn't download from GitHub. Maybe the branch \"" + data.branch + "\" doesn't exist?" );
 		process.exit( 1 );
