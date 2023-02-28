@@ -111,7 +111,7 @@ var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 	
 	rimraf.sync( sourcePath );
 	
-	downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, async function(err) {
+	downloadGH( "saucal/WordPress-Plugin-Boilerplate#" + data.branch, sourcePath, { clone: true }, async function(err) {
 		if ( err ) {
 			console.error( "Couldn't download from GitHub. Maybe the branch \"" + data.branch + "\" doesn't exist?" );
 			process.exit( 1 );
