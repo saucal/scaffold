@@ -20,6 +20,7 @@ let data = {
 	slug: getArgFromCLI( '--slug' ) || '',
 	uri: getArgFromCLI( '--uri' ) || '',
 	package: getArgFromCLI( '--package' ) || '',
+	namespace: getArgFromCLI( '--namespace' ) || '',
 	shortpkg: getArgFromCLI( '--short' ) || '',
 	singleton: getArgFromCLI( '--singleton' ) || '',
 	author: {
@@ -61,6 +62,7 @@ let pluginAuthorURI = String(data.author.uri).length ? data.author.uri : 'https:
 let pluginAuthorEmail = String(data.author.email).length ? data.author.email : 'info@saucal.com';
 let pluginAuthorSlug = slugify( pluginAuthor ).toLowerCase()
 let pluginNamePackage = String(data.package).length ? data.package : packagify( pluginName );
+let pluginNameNamespace = String(data.namespace).length ? data.namespace : pluginNamePackage.replace('\/','\\')
 let pluginNameShortPackage = String(data.shortpkg).length ? data.shortpkg : shortify( pluginName );
 let pluginNameContantsPrefix = pluginNameShortPackage.toUpperCase();
 let pluginNameSingleton = String(data.singleton).length ? data.singleton : pluginNameShortPackage;
@@ -139,6 +141,9 @@ var targetPluginPath = path.join( basePath, path.basename( sourcePluginPath ) );
 			[ "Your Name or Your Company", pluginAuthor ],
 			[ "Your Name <email@example.com>", pluginAuthorFull ],
 			[ "author-slug", pluginAuthorSlug ],
+			[ "Plugin_Name\\\\\\\\", pluginNameNamespace.replace( '\\', '\\\\' ) + '\\\\' ],
+			[ "Plugin_Name\\\\", pluginNameNamespace + '\\' ],
+			[ "(namespace +)Plugin_Name", "$1" + pluginNameNamespace ],
 			[ "Plugin_Name", pluginNamePackage ],
 			[ "plugin-name", pluginSlug ],
 			[ "plugin_name", pluginNameInstance ],
