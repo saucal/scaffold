@@ -19,6 +19,7 @@ To install as a global NPM package:
 - `--name` (Default: '')
 - `--slug` (Default: '')
 - `--uri` (Default: '')
-- `--package` (Default: '')
+- `--package` (Default: '', support forward slashes `/` for namespacing)
+- `--namespace` (Default: '', derived from package, inverting slashes as namespaces uses backslashes `\`)
 - `--short` (Default: '')
 - `--singleton` (Default: '')
